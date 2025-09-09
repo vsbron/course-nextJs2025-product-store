@@ -1,7 +1,7 @@
 import Container from "@/components/global/Container";
 
 import CartButton from "./CartButton";
-import DarkMode from "./DarkMode";
+import ThemeToggle from "./ThemeToggle";
 import LinksDropdown from "./LinksDropdown";
 import Logo from "./Logo";
 import NavSearch from "./NavSearch";
@@ -15,7 +15,7 @@ function Navbar() {
         <NavSearch />
         <div className="flex gap-4 items-center">
           <CartButton />
-          <DarkMode />
+          <ThemeToggle />
           <LinksDropdown />
         </div>
       </Container>
