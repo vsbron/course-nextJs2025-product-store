@@ -1,4 +1,4 @@
-function ProductsGrid() {
+function ProductsGrid({ products }: any) {
   // Returned JSX
   return <div>ProductsGrid</div>;
 }
