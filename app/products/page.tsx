@@ -1,15 +1,19 @@
 import ProductsContainer from "@/components/products/ProductsContainer";
 
 // Type for search params
-type SearchParamsType = { layout?: string; search?: string };
+type SearchParamsType = { searchParams: { layout?: string; search?: string } };
 
 // The Products page
-function ProductsPage({ searchParams }: { searchParams: SearchParamsType }) {
-  const layout = searchParams.layout || "grid";
-  const search = searchParams.search || "";
+async function ProductsPage({ searchParams }: SearchParamsType) {
+  // Get the values from search params
+  const { layout, search } = await searchParams;
+
+  // Check if empty, assign defaults
+  const receivedLayout = layout || "grid";
+  const receivedSearch = search || "";
 
   // Returned JSX
-  return <ProductsContainer layout={layout} search={search} />;
+  return <ProductsContainer layout={receivedLayout} search={receivedSearch} />;
 }
 
 export default ProductsPage;
