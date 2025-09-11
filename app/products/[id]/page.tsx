@@ -1,3 +1,4 @@
+import Breadcrumbs from "@/components/single-product/Breadcrumbs";
 import { fetchSingleProduct } from "@/utils/actions";
 
 async function SingleProductPage({ params }: { params: { id: string } }) {
@@ -7,12 +8,10 @@ async function SingleProductPage({ params }: { params: { id: string } }) {
   // Get the product
   const product = await fetchSingleProduct({ id });
 
-  // Guard clause
-  if (!product) return <h1>Sorry, no item</h1>;
-
   // Returned JSX
   return (
     <>
+      <Breadcrumbs name={product.name} />
       <h1>{id}</h1>
       <p>{product.name}</p>
     </>

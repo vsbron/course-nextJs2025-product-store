@@ -1,4 +1,5 @@
 import db from "@/utils/db";
+import { redirect } from "next/navigation";
 
 // Action function that fetches only featured products
 export const fetchFeaturedProducts = async () => {
@@ -25,6 +26,12 @@ export const fetchAllProducts = async ({ search = "" }: { search: string }) => {
 
 // Action function that fetches single product
 export const fetchSingleProduct = async ({ id }: { id: string }) => {
-  const products = await db.product.findUnique({ where: { id: id } });
-  return products;
+  // Fetch the product
+  const product = await db.product.findUnique({ where: { id: id } });
+
+  // Guard clause
+  if (!product) redirect("/products");
+
+  // Return the product
+  return product;
 };
