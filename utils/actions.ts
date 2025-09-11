@@ -22,3 +22,9 @@ export const fetchAllProducts = async ({ search = "" }: { search: string }) => {
   });
   return products;
 };
+
+// Action function that fetches single product
+export const fetchSingleProduct = async ({ id }: { id: string }) => {
+  const products = await db.product.findUnique({ where: { id: id } });
+  return products;
+};
