@@ -1,9 +1,10 @@
 import { Product } from "@prisma/client";
-import Link from "next/link";
-import { Card, CardContent } from "@/components/ui/card";
 import Image from "next/image";
-import { formatCurrency } from "@/utils/format";
+import Link from "next/link";
+
+import { Card, CardContent } from "@/components/ui/card";
 import FavoriteToggleButton from "./FavoriteToggleButton";
+import { formatCurrency } from "@/utils/format";
 
 function ProductsGrid({ products }: { products: Product[] }) {
   // Returned JSX
