@@ -16,7 +16,7 @@ type ProductsContainerType = {
 // The Products Container component
 async function ProductsContainer({ layout, search }: ProductsContainerType) {
   // Get the products and count them
-  const products = await fetchAllProducts();
+  const products = await fetchAllProducts({ search });
   const totalProducts = products.length;
 
   // Set up the search term

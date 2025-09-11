@@ -18,11 +18,9 @@ function NavSearch() {
 
   // Handle search function (uses a delay of 300ms)
   const handleSearch = useDebouncedCallback((value: string) => {
-    // Guard clause
-    if (value.length < 3) return;
-
-    // The logic
+    // Create a params reference
     const params = new URLSearchParams(searchParams);
+
     if (value) {
       // Set new params if something typed
       params.set("search", value);
@@ -30,6 +28,7 @@ function NavSearch() {
       // Clear the params otherwise
       params.delete("search");
     }
+
     // Redirect to products page with new params
     replace(`/products?${params.toString()}`);
   }, 300);
