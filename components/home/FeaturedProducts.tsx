@@ -1,7 +1,7 @@
+import EmptyList from "@/components/global/EmptyList";
+import SectionTitle from "@/components/global/SectionTitle";
+import ProductsGrid from "@/components/products/ProductsGrid";
 import { fetchFeaturedProducts } from "@/utils/actions";
-import EmptyList from "../global/EmptyList";
-import SectionTitle from "../global/SectionTitle";
-import ProductsGrid from "../products/ProductsGrid";
 
 async function FeaturedProducts() {
   // Get the featured products
