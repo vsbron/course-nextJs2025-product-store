@@ -1,14 +1,19 @@
+import Image from "next/image";
+
 import FavoriteToggleButton from "@/components/products/FavoriteToggleButton";
 import AddToCart from "@/components/single-product/AddToCart";
 import Breadcrumbs from "@/components/single-product/Breadcrumbs";
 import ProductRating from "@/components/single-product/ProductRating";
 import { fetchSingleProduct } from "@/utils/actions";
 import { formatCurrency } from "@/utils/format";
-import Image from "next/image";
 
-async function SingleProductPage({ params }: { params: { id: string } }) {
+interface PageProps {
+  params: Promise<{ id: string }>;
+}
+
+async function SingleProductPage({ params }: PageProps) {
   // Get the ID from the params
-  const { id } = await params;
+  const { id } = await params; // now TS is happy
 
   // Get (and destructure) the product
   const { name, image, company, description, price } = await fetchSingleProduct(
