@@ -8,7 +8,7 @@ function Logo() {
   return (
     <Button size="icon" asChild>
       <Link href="/">
-        <VscCode className="w-8 h-8" />
+        <VscCode className="w-8 h-8 dark:text-white" />
       </Link>
     </Button>
   );

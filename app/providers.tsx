@@ -1,11 +1,13 @@
 "use client";
 
+import { Toaster } from "sonner";
 import { ThemeProvider } from "./theme-provider";
 
 function Providers({ children }: { children: React.ReactNode }) {
   // Returned JSX
   return (
     <>
+      <Toaster />
       <ThemeProvider
         attribute="class"
         defaultTheme="system"
