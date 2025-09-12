@@ -14,7 +14,7 @@ interface SingleProductsPageProps {
 
 async function SingleProductPage({ params }: SingleProductsPageProps) {
   // Get the ID from the params
-  const { id } = await params; // now TS is happy
+  const { id } = await params;
 
   // Get (and destructure) the product
   const { name, image, company, description, price } = await fetchSingleProduct(
