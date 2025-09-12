@@ -7,11 +7,12 @@ import ProductRating from "@/components/single-product/ProductRating";
 import { fetchSingleProduct } from "@/utils/actions";
 import { formatCurrency } from "@/utils/format";
 
-interface PageProps {
+// Interface for the Props
+interface SingleProductsPageProps {
   params: Promise<{ id: string }>;
 }
 
-async function SingleProductPage({ params }: PageProps) {
+async function SingleProductPage({ params }: SingleProductsPageProps) {
   // Get the ID from the params
   const { id } = await params; // now TS is happy
 

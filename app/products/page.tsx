@@ -1,10 +1,12 @@
 import ProductsContainer from "@/components/products/ProductsContainer";
 
-// Type for search params
-type SearchParamsType = { searchParams: { layout?: string; search?: string } };
+// Interface for the Props
+interface ProductsPageProps {
+  searchParams: Promise<{ layout?: string; search?: string }>;
+}
 
 // The Products page
-async function ProductsPage({ searchParams }: SearchParamsType) {
+async function ProductsPage({ searchParams }: ProductsPageProps) {
   // Get the values from search params
   const { layout, search } = await searchParams;
 
