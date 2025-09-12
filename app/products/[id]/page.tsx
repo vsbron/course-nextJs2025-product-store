@@ -6,7 +6,6 @@ import Breadcrumbs from "@/components/single-product/Breadcrumbs";
 import ProductRating from "@/components/single-product/ProductRating";
 import { fetchSingleProduct } from "@/utils/actions";
 import { formatCurrency } from "@/utils/format";
-import SignOutLink from "@/components/navbar/SignOutLink";
 
 // Interface for the Props
 interface SingleProductsPageProps {
