@@ -1,6 +1,32 @@
-function CheckboxInput() {
+"use client";
+
+import { Checkbox } from "@/components/ui/checkbox";
+
+// Type for Checkbox input
+type CheckboxInputProps = {
+  name: string;
+  label: string;
+  defaultChecked?: boolean;
+};
+
+// The CheckboxInput component
+function CheckboxInput({
+  name,
+  label,
+  defaultChecked = false,
+}: CheckboxInputProps) {
   // Returned JSX
-  return <div>CheckboxInput</div>;
+  return (
+    <div className="flex items-center space-x-2">
+      <Checkbox id={name} name={name} defaultChecked={defaultChecked} />
+      <label
+        htmlFor={name}
+        className="text-sm leading-none capitalize peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+      >
+        {label}
+      </label>
+    </div>
+  );
 }
 
 export default CheckboxInput;
