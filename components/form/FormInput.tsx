@@ -15,8 +15,8 @@ function FormInput({
   name,
   type,
   label,
-  defaultValue = "",
-  placeholder = "",
+  defaultValue,
+  placeholder,
 }: FormInputProps) {
   // Returned JSX
   return (
