@@ -3,8 +3,8 @@
 import { useFormStatus } from "react-dom";
 import { SignInButton } from "@clerk/nextjs";
 import { FaRegHeart, FaHeart } from "react-icons/fa";
-import { LuTrash2, LuPenSquare } from "react-icons/lu";
-import { ReloadIcon } from "@radix-ui/react-icons";
+import { RxReload } from "react-icons/rx";
+// import { LuTrash2, LuPenSquare } from "react-icons/lu";
 
 import { Button } from "@/components/ui/button";
 
@@ -33,7 +33,8 @@ export function SubmitButton({ className, text, size }: SubmitButtonProps) {
     >
       {pending ? (
         <>
-          <ReloadIcon className="mr-2 h-4 w-4 animate-spin" />
+          {/* FIXME: */}
+          <RxReload className="mr-2 h-4 w-4 animate-spin" />
           Please wait...
         </>
       ) : (
