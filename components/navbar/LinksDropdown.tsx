@@ -7,6 +7,7 @@ import {
   SignOutButton,
   SignUpButton,
 } from "@clerk/nextjs";
+import { auth } from "@clerk/nextjs/server";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -19,7 +20,11 @@ import {
 import UserIcon from "./UserIcon";
 import { links } from "@/utils/links";
 
-function LinksDropdown() {
+async function LinksDropdown() {
+  // Get the user ID
+  const { userId } = await auth();
+  const isAdminUser = userId === process.env.ADMIN_USER_ID;
+
   // Returned JSX
   return (
     <DropdownMenu>
@@ -46,13 +51,18 @@ function LinksDropdown() {
           </DropdownMenuItem>
         </SignedOut>
         <SignedIn>
-          {links.map(({ href, label }) => (
-            <DropdownMenuItem key={href}>
-              <Link href={href} className="w-full">
-                {label}
-              </Link>
-            </DropdownMenuItem>
-          ))}
+          {links.map(({ href, label }) => {
+            // Non-admin guard clause
+            if (label === "Dashboard" && !isAdminUser) return null;
+            // Render the links
+            return (
+              <DropdownMenuItem key={href}>
+                <Link href={href} className="w-full">
+                  {label}
+                </Link>
+              </DropdownMenuItem>
+            );
+          })}
           <DropdownMenuSeparator />
           <DropdownMenuItem>
             <SignOutButton>
