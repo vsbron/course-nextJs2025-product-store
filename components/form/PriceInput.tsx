@@ -1,9 +1,6 @@
 import { Label } from "../ui/label";
 import { Input } from "../ui/input";
 
-// Default name for the form input
-const name = "price";
-
 // Type for PriceInput
 type PriceInputProps = {
   defaultValue?: number;
@@ -11,6 +8,9 @@ type PriceInputProps = {
 
 // The Price Input component
 function PriceInput({ defaultValue }: PriceInputProps) {
+  // Setting up the default name for the form input
+  const name = "price";
+
   // Returned JSX
   return (
     <div className="mb-4">
