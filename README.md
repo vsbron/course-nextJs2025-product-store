@@ -9,6 +9,7 @@ A store project built with Next.js, TypeScript, and Tailwind CSS.
 - **Tailwind CSS** – Utility-first CSS framework for styling
 - **ShadCN Components** – Prebuilt UI components for faster development
 - **Clerk** – Authentication and user management
+- **Zod** - Form data validation
 - **Prisma** – Database ORM for managing products
 
 ## Live version
