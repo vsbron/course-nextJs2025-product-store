@@ -5,7 +5,7 @@ import { redirect } from "next/navigation";
 import { imageSchema, productSchema } from "./schema";
 import { validatedWithZodSchema } from "./schemaFunctions";
 import db from "@/utils/db";
-import { uploadImage } from "./supabase";
+import { deleteImage, uploadImage } from "./supabase";
 import { revalidatePath } from "next/cache";
 
 // Helper function for getting the current user
@@ -127,9 +127,12 @@ export const deleteProductAction = async (prevState: { productId: string }) => {
   await getAdminUser();
 
   try {
-    await db.product.delete({
+    const product = await db.product.delete({
       where: { id: productId },
     });
+
+    // Delete the image from Supabase
+    deleteImage({ url: product.image });
 
     // Revalidate products
     revalidatePath("/admin/products");

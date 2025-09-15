@@ -25,3 +25,20 @@ export const uploadImage = async (image: File, folder = "products") => {
   // Return the image url
   return supabase.storage.from(bucket).getPublicUrl(newName).data.publicUrl;
 };
+
+// Type for Delete Image function
+type DeleteImageProps = {
+  url: string;
+  folder?: string;
+};
+// Delete old image function
+export const deleteImage = ({ url, folder = "products" }: DeleteImageProps) => {
+  // Getting the image name
+  const imageName = url.split("/").pop();
+
+  // Guard clause
+  if (!imageName) throw new Error("Invalid URL");
+
+  // Delete the image from supabase
+  return supabase.storage.from(bucket).remove([`${folder}/${imageName}`]);
+};
