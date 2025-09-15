@@ -5,6 +5,7 @@ import { redirect } from "next/navigation";
 import { imageSchema, productSchema } from "./schema";
 import { validatedWithZodSchema } from "./schemaFunctions";
 import db from "@/utils/db";
+import { uploadImage } from "./supabase";
 
 // Helper function for getting the current user
 const getAuthUser = async () => {
@@ -70,22 +71,24 @@ export const createProductAction = async (
   try {
     // Getting and validating the form values
     const rawData = Object.fromEntries(formData);
-    const file = formData.get("image") as File;
     const validatedFields = validatedWithZodSchema(productSchema, rawData);
+
+    // Handle the image
+    const file = formData.get("image") as File;
     const validatedFile = validatedWithZodSchema(imageSchema, { image: file });
+    const imageURL = await uploadImage(validatedFile.image);
 
     // Create the product in the database
     await db.product.create({
       data: {
         ...validatedFields,
-        image: "/images/product-3.jpg",
+        image: imageURL,
         clerkId: user.id,
       },
     });
-
-    // Returned message
-    return { message: "Product created" };
   } catch (err) {
     return renderError(err);
   }
+  // Redirect user to admin products page
+  redirect("/admin/products");
 };
