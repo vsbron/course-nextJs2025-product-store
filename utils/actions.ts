@@ -1,9 +1,10 @@
 "use server";
-
-import db from "@/utils/db";
 import { currentUser } from "@clerk/nextjs/server";
 import { redirect } from "next/navigation";
-import { productSchema, validatedWithZodSchema } from "./schema";
+
+import { imageSchema, productSchema } from "./schema";
+import { validatedWithZodSchema } from "./schemaFunctions";
+import db from "@/utils/db";
 
 // Helper function for getting the current user
 const getAuthUser = async () => {
@@ -69,7 +70,9 @@ export const createProductAction = async (
   try {
     // Getting and validating the form values
     const rawData = Object.fromEntries(formData);
+    const file = formData.get("image") as File;
     const validatedFields = validatedWithZodSchema(productSchema, rawData);
+    const validatedFile = validatedWithZodSchema(imageSchema, { image: file });
 
     // Create the product in the database
     await db.product.create({

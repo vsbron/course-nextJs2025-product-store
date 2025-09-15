@@ -1,4 +1,5 @@
-import { z, ZodType } from "zod";
+import { z } from "zod";
+import { validateImageFile } from "./schemaFunctions";
 
 // Schema for product
 export const productSchema = z.object({
@@ -26,18 +27,7 @@ export const productSchema = z.object({
   ),
 });
 
-export function validatedWithZodSchema<T>(
-  schema: ZodType<T>,
-  data: unknown
-): T {
-  // Parse the data
-  const result = schema.safeParse(data);
-
-  // Throw custom error message if validation fails
-  if (!result.success) {
-    const error = result.error.issues.map((err) => err.message);
-    throw new Error(error.join(", "));
-  }
-
-  return result.data;
-}
+// Schema for image
+export const imageSchema = z.object({
+  image: validateImageFile(),
+});
