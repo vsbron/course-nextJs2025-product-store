@@ -17,6 +17,16 @@ const getAuthUser = async () => {
 
   // Return the user
   return user;
+}; // Helper function for getting the admin user
+const getAdminUser = async () => {
+  // Get the user
+  const user = await getAuthUser();
+
+  // Redirect if user is not admin
+  if (user.id !== process.env.ADMIN_USER_ID) redirect("/");
+
+  // Return the user
+  return user;
 };
 // Helper function for rendering the error message
 const renderError = (err: unknown): { message: string } => {
@@ -91,4 +101,18 @@ export const createProductAction = async (
   }
   // Redirect user to admin products page
   redirect("/admin/products");
+};
+
+// Action function that fetches all products
+export const fetchAdminProducts = async () => {
+  // Checking whether the user is admin
+  await getAdminUser();
+
+  // Fetch all the products
+  const products = await db.product.findMany({
+    orderBy: {
+      createdAt: "desc",
+    },
+  });
+  return products;
 };
