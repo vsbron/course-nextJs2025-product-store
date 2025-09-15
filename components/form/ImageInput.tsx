@@ -9,9 +9,9 @@ function ImageInput() {
   return (
     <div className="mb-4">
       <Label htmlFor={name} className="mb-2 capitalize">
-        Price ($)
+        Image
       </Label>
-      <Input id={name} name={name} type="file" required accept="image/*" />
+      <Input id={name} name={name} type="file" accept="image/*" required />
     </div>
   );
 }

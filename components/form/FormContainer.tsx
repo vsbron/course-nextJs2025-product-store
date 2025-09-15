@@ -1,7 +1,6 @@
 "use client";
 
-import { useEffect } from "react";
-import { useFormState } from "react-dom";
+import { useActionState, useEffect } from "react";
 import { toast } from "sonner";
 
 import { actionFunction } from "@/utils/types";
@@ -20,7 +19,7 @@ type FormContainerProps = {
 // The Form Container component
 function FormContainer({ action, children }: FormContainerProps) {
   // Getting the state and form action from the hook
-  const [state, formAction] = useFormState(action, initialState);
+  const [state, formAction] = useActionState(action, initialState);
 
   // Use effect that gets the message every time state is changed
   useEffect(() => {
