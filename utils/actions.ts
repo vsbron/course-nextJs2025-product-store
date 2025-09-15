@@ -3,7 +3,7 @@
 import db from "@/utils/db";
 import { currentUser } from "@clerk/nextjs/server";
 import { redirect } from "next/navigation";
-import { productSchema } from "./schema";
+import { productSchema, validatedWithZodSchema } from "./schema";
 
 // Helper function for getting the current user
 const getAuthUser = async () => {
@@ -69,20 +69,16 @@ export const createProductAction = async (
   try {
     // Getting and validating the form values
     const rawData = Object.fromEntries(formData);
-    const validatedFields = productSchema.parse(rawData);
+    const validatedFields = validatedWithZodSchema(productSchema, rawData);
 
-    // // Create product in the database
-    // await db.product.create({
-    //   data: {
-    //     name,
-    //     company,
-    //     price,
-    //     image: "/images/product-1.jpg",
-    //     description,
-    //     featured,
-    //     clerkId: user.id,
-    //   },
-    // });
+    // Create the product in the database
+    await db.product.create({
+      data: {
+        ...validatedFields,
+        image: "/images/product-3.jpg",
+        clerkId: user.id,
+      },
+    });
 
     // Returned message
     return { message: "Product created" };
