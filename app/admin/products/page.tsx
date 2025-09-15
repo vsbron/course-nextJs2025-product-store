@@ -13,6 +13,8 @@ import {
 
 import { fetchAdminProducts } from "@/utils/actions";
 import { formatCurrency } from "@/utils/format";
+import FormContainer from "@/components/form/FormContainer";
+import { IconButton } from "@/components/form/Buttons";
 
 async function AdminProductsPage() {
   // Fetch all the products

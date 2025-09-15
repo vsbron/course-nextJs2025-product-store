@@ -6,6 +6,7 @@ import { imageSchema, productSchema } from "./schema";
 import { validatedWithZodSchema } from "./schemaFunctions";
 import db from "@/utils/db";
 import { uploadImage } from "./supabase";
+import { revalidatePath } from "next/cache";
 
 // Helper function for getting the current user
 const getAuthUser = async () => {
@@ -115,4 +116,26 @@ export const fetchAdminProducts = async () => {
     },
   });
   return products;
+};
+
+// Delete product action
+export const deleteProductAction = async (prevState: { productId: string }) => {
+  // Get the product ID
+  const { productId } = prevState;
+
+  // Checking whether the user is admin
+  await getAdminUser();
+
+  try {
+    await db.product.delete({
+      where: { id: productId },
+    });
+
+    // Revalidate products
+    revalidatePath("/admin/products");
+
+    return { message: "Product successfully removed" };
+  } catch (err) {
+    return renderError(err);
+  }
 };

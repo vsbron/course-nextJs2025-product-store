@@ -1,10 +1,9 @@
 "use client";
 
 import { useFormStatus } from "react-dom";
-import { SignInButton } from "@clerk/nextjs";
-import { FaRegHeart, FaHeart } from "react-icons/fa";
 import { RxReload } from "react-icons/rx";
-// import { LuTrash2, LuPenSquare } from "react-icons/lu";
+import { LucidePenSquare } from "lucide-react";
+import { LuTrash2 } from "react-icons/lu";
 
 import { Button } from "@/components/ui/button";
 
@@ -33,7 +32,6 @@ export function SubmitButton({ className, text, size }: SubmitButtonProps) {
     >
       {pending ? (
         <>
-          {/* FIXME: */}
           <RxReload className="mr-2 h-4 w-4 animate-spin" />
           Please wait...
         </>
@@ -43,3 +41,41 @@ export function SubmitButton({ className, text, size }: SubmitButtonProps) {
     </Button>
   );
 }
+
+// Setting possible values for action type
+type actionButtonType = "edit" | "delete";
+
+// The Icon button component
+export const IconButton = ({
+  actionType,
+}: {
+  actionType: actionButtonType;
+}) => {
+  // Get the current form status
+  const { pending } = useFormStatus();
+
+  // Rendering icon function
+  const renderIcon = () => {
+    switch (actionType) {
+      case "edit":
+        return <LucidePenSquare />;
+      case "delete":
+        return <LuTrash2 />;
+      default:
+        const never: never = actionType;
+        throw new Error(`Invalid action type: ${never}`);
+    }
+  };
+
+  // Returned JSX
+  return (
+    <Button
+      type="submit"
+      size="icon"
+      variant="link"
+      className="p-2 cursor-pointer"
+    >
+      {pending ? <RxReload className="animate-spin" /> : renderIcon()}
+    </Button>
+  );
+};
