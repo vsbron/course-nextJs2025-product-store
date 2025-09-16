@@ -183,7 +183,7 @@ export const updateProductAction = async (
       },
     });
 
-    // Revalidate products
+    // Revalidate product page
     revalidatePath(`/admin/products/${productId}/edit`);
 
     // Return success message
@@ -199,5 +199,38 @@ export const updateProductImageAction = async (
   prevState: any,
   formData: FormData
 ) => {
-  return { message: "Product image updated successfully" };
+  // Checking whether the user is admin
+  await getAdminUser();
+
+  try {
+    // Get some data from form
+    const image = formData.get("image") as File;
+    const productId = formData.get("id") as string;
+    const oldImageUrl = formData.get("url") as string;
+
+    // Handle the image upload
+    const validatedFile = validatedWithZodSchema(imageSchema, { image });
+    const fullPath = await uploadImage(validatedFile.image);
+
+    // Delete the old image from Supabase
+    deleteImage({ url: oldImageUrl });
+
+    // Edit the product in the database
+    await db.product.update({
+      where: {
+        id: productId,
+      },
+      data: {
+        image: fullPath,
+      },
+    });
+
+    // Revalidate product page
+    revalidatePath(`/admin/products/${productId}/edit`);
+
+    // Return success message
+    return { message: "Product image updated successfully" };
+  } catch (err) {
+    return renderError(err);
+  }
 };
