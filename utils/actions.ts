@@ -254,6 +254,43 @@ export const fetchFavoriteId = async ({ productId }: { productId: string }) => {
 };
 
 // Toggle Favorite action function
-export const toggleFavoriteAction = async () => {
-  return { message: "Toggle favorite action" };
+export const toggleFavoriteAction = async (prevState: {
+  productId: string;
+  favoriteId: string | null;
+  pathname: string;
+}) => {
+  // Get the current user
+  const user = await getAuthUser();
+
+  // Destructure the passed data
+  const { productId, favoriteId, pathname } = prevState;
+
+  try {
+    if (favoriteId) {
+      // If it's already in favorites - remove it
+      await db.favorite.delete({
+        where: {
+          id: favoriteId,
+        },
+      });
+    } else {
+      // Add it otherwise
+      await db.favorite.create({
+        data: {
+          productId,
+          clerkId: user.id,
+        },
+      });
+    }
+
+    // Revalidate the page
+    revalidatePath(pathname);
+
+    // Return the result message
+    return {
+      message: favoriteId ? "Removed from favorites" : "Added to Favorites",
+    };
+  } catch (err) {
+    return renderError(err);
+  }
 };
