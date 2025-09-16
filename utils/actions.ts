@@ -294,3 +294,20 @@ export const toggleFavoriteAction = async (prevState: {
     return renderError(err);
   }
 };
+
+// Action function for fetching the user's favorite products
+export const fetchUserFavorites = async () => {
+  // Get the current user
+  const user = await getAuthUser();
+
+  // Fetch the favorites that assigned to user
+  const favorites = await db.favorite.findMany({
+    where: {
+      clerkId: user.id,
+    },
+    include: { product: true },
+  });
+
+  // Return the favorites
+  return favorites;
+};
