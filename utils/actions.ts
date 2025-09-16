@@ -164,7 +164,33 @@ export const updateProductAction = async (
   prevState: any,
   formData: FormData
 ) => {
-  return { message: "Product updated successfully" };
+  // Checking whether the user is admin
+  await getAdminUser();
+
+  try {
+    // Get the product ID from hidden input
+    const productId = formData.get("id") as string;
+
+    // Get and validate the form data
+    const rawData = Object.fromEntries(formData);
+    const validatedFields = validatedWithZodSchema(productSchema, rawData);
+
+    // Update the product in the database
+    await db.product.update({
+      where: { id: productId },
+      data: {
+        ...validatedFields,
+      },
+    });
+
+    // Revalidate products
+    revalidatePath(`/admin/products/${productId}/edit`);
+
+    // Return success message
+    return { message: "Product updated successfully" };
+  } catch (err) {
+    return renderError(err);
+  }
 };
 
 // Update product image action
