@@ -142,3 +142,36 @@ export const deleteProductAction = async (prevState: { productId: string }) => {
     return renderError(err);
   }
 };
+
+// Fetch admin product details action
+export const fetchAdminProductDetails = async (productId: string) => {
+  // Checking whether the user is admin
+  await getAdminUser();
+
+  // Get the product by its ID
+  const product = await db.product.findUnique({ where: { id: productId } });
+
+  // Guard clause
+  if (!product) redirect("/admin/products");
+
+  // Return the product
+  return product;
+};
+
+// Update product action
+export const updateProductAction = async (
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  prevState: any,
+  formData: FormData
+) => {
+  return { message: "Product updated successfully" };
+};
+
+// Update product image action
+export const updateProductImageAction = async (
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  prevState: any,
+  formData: FormData
+) => {
+  return { message: "Product image updated successfully" };
+};
