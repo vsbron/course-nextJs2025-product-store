@@ -1,9 +1,10 @@
 "use client";
-
 import { useFormStatus } from "react-dom";
+import { FaHeart, FaRegHeart } from "react-icons/fa";
+import { LuTrash2 } from "react-icons/lu";
 import { RxReload } from "react-icons/rx";
 import { LucidePenSquare } from "lucide-react";
-import { LuTrash2 } from "react-icons/lu";
+import { SignInButton } from "@clerk/nextjs";
 
 import { Button } from "@/components/ui/button";
 
@@ -76,6 +77,48 @@ export const IconButton = ({
       className="p-2 cursor-pointer"
     >
       {pending ? <RxReload className="animate-spin" /> : renderIcon()}
+    </Button>
+  );
+};
+
+// Fave button for logged out users
+export const CardSignInButton = () => {
+  // Returned JSX
+  return (
+    <SignInButton mode="modal">
+      <Button
+        type="submit"
+        size="icon"
+        variant="outline"
+        className="p-2 cursor-pointer"
+        asChild
+      >
+        <FaRegHeart />
+      </Button>
+    </SignInButton>
+  );
+};
+
+// Fave button for logged in users
+export const CardSubmitButton = ({ isFavorite }: { isFavorite: boolean }) => {
+  // Get the form state
+  const { pending } = useFormStatus();
+
+  // Returned JSX
+  return (
+    <Button
+      type="submit"
+      size="icon"
+      variant="outline"
+      className="p-2 cursor-pointer"
+    >
+      {pending ? (
+        <RxReload className="animate-spin" />
+      ) : isFavorite ? (
+        <FaHeart />
+      ) : (
+        <FaRegHeart />
+      )}
     </Button>
   );
 };
