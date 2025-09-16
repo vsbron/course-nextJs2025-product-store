@@ -7,6 +7,7 @@ import { validatedWithZodSchema } from "./schemaFunctions";
 import db from "@/utils/db";
 import { deleteImage, uploadImage } from "./supabase";
 import { revalidatePath } from "next/cache";
+import { fa } from "@faker-js/faker";
 
 // Helper function for getting the current user
 const getAuthUser = async () => {
@@ -233,4 +234,27 @@ export const updateProductImageAction = async (
   } catch (err) {
     return renderError(err);
   }
+};
+
+// Action function that checks if the product is in users' favorites
+export const fetchFavoriteId = async ({ productId }: { productId: string }) => {
+  // Get the current user
+  const user = await getAuthUser();
+
+  // Get the favorite
+  const favorite = await db.favorite.findFirst({
+    where: {
+      productId,
+      clerkId: user.id,
+    },
+    select: { id: true },
+  });
+
+  // Return the ID or the null
+  return favorite?.id || null;
+};
+
+// Toggle Favorite action function
+export const toggleFavoriteAction = async () => {
+  return { message: "Toggle favorite action" };
 };
