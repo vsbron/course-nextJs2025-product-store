@@ -7,7 +7,6 @@ import { validatedWithZodSchema } from "./schemaFunctions";
 import db from "@/utils/db";
 import { deleteImage, uploadImage } from "./supabase";
 import { revalidatePath } from "next/cache";
-import { fa } from "@faker-js/faker";
 
 // Helper function for getting the current user
 const getAuthUser = async () => {
@@ -236,7 +235,7 @@ export const updateProductImageAction = async (
   }
 };
 
-// Action function that checks if the product is in users' favorites
+// Action function that checks if the product is in user's favorites
 export const fetchFavoriteId = async ({ productId }: { productId: string }) => {
   // Get the current user
   const user = await getAuthUser();
