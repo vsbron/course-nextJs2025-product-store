@@ -15,8 +15,6 @@ import { deleteProductAction, fetchAdminProducts } from "@/utils/actions";
 import { formatCurrency } from "@/utils/format";
 import FormContainer from "@/components/form/FormContainer";
 import { IconButton } from "@/components/form/Buttons";
-import { Suspense } from "react";
-import LoadingTable from "@/components/global/LoadingTable";
 
 async function AdminProductsPage() {
   // Fetch all the products
