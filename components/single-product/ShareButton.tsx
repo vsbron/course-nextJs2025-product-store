@@ -35,13 +35,13 @@ function ShareButton({ productId, name }: { productId: string; name: string }) {
         sideOffset={10}
         className="flex items-center gap-x-2 justify-center w-full"
       >
-        <TwitterShareButton url={shareURL}>
+        <TwitterShareButton url={shareURL} title={name}>
           <TwitterIcon size={32} round />
         </TwitterShareButton>
-        <LinkedinShareButton url={shareURL}>
+        <LinkedinShareButton url={shareURL} title={name}>
           <LinkedinIcon size={32} round />
         </LinkedinShareButton>
-        <EmailShareButton url={shareURL}>
+        <EmailShareButton url={shareURL} title={name}>
           <EmailIcon size={32} round />
         </EmailShareButton>
       </PopoverContent>
