@@ -11,7 +11,12 @@ import {
   updateProductImageAction,
 } from "@/utils/actions";
 
-async function EditProductPage({ params }: { params: { id: string } }) {
+// Interface for the Props
+interface EditProductPageProps {
+  params: Promise<{ id: string }>;
+}
+
+async function EditProductPage({ params }: EditProductPageProps) {
   // Getting the ID and destructure the product
   const { id } = await params;
   const { name, company, description, featured, price, image } =
