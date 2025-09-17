@@ -19,7 +19,11 @@ type SubmitButtonProps = {
 };
 
 // The Submit Button component
-export function SubmitButton({ className, text, size }: SubmitButtonProps) {
+export function SubmitButton({
+  className,
+  text = "Submit",
+  size,
+}: SubmitButtonProps) {
   // Get the pending state of the form
   const { pending } = useFormStatus();
 

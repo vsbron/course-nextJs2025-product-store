@@ -7,6 +7,7 @@ import ProductRating from "@/components/single-product/ProductRating";
 import ShareButton from "@/components/single-product/ShareButton";
 import { fetchSingleProduct } from "@/utils/actions";
 import { formatCurrency } from "@/utils/format";
+import SubmitReview from "@/components/reviews/SubmitReview";
 
 // Interface for the Props
 interface SingleProductsPageProps {
@@ -56,6 +57,7 @@ async function SingleProductPage({ params }: SingleProductsPageProps) {
           <AddToCart productId={id} />
         </div>
       </div>
+      <SubmitReview productId={id} />
     </section>
   );
 }
