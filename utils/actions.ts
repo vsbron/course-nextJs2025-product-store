@@ -311,3 +311,20 @@ export const fetchUserFavorites = async () => {
   // Return the favorites
   return favorites;
 };
+
+// REVIEWS
+// Create review action function
+export const createReviewAction = async (
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  prevState: any,
+  formData: FormData
+) => {
+  return { message: "Review submitted successfully" };
+};
+
+// TODO:
+export const fetchProductReviews = async () => {};
+export const fetchProductReviewsByUser = async () => {};
+export const deleteReviewAction = async () => {};
+export const findExistingReview = async () => {};
+export const fetchProductRating = async () => {};
