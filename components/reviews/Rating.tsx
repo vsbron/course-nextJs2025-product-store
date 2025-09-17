@@ -2,7 +2,7 @@ import { FaStar, FaRegStar } from "react-icons/fa";
 
 function Rating({ rating }: { rating: number }) {
   // Set up the array of star rating
-  const stars = Array.from({ length: 5 }, (_, i) => i + 1 < rating);
+  const stars = Array.from({ length: 5 }, (_, i) => i + 1 <= rating);
 
   // Returned JSX
   return (
