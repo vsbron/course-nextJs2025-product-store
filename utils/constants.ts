@@ -1,0 +1,1 @@
+export const COMMENT_EXPAND_LIMIT = 130;
