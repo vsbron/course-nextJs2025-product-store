@@ -40,7 +40,7 @@ function SubmitReview({ productId }: { productId: string }) {
               value={user?.firstName || "User"}
             />
             <input type="hidden" name="authorImageUrl" value={user?.imageUrl} />
-            <RatingInput name="Rating" />
+            <RatingInput name="rating" />
             <TextAreaInput
               name="comment"
               labelText="Feedback"
