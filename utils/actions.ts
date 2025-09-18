@@ -7,6 +7,7 @@ import { validatedWithZodSchema } from "./schemaFunctions";
 import db from "@/utils/db";
 import { deleteImage, uploadImage } from "./supabase";
 import { revalidatePath } from "next/cache";
+import { useAuth } from "@clerk/nextjs";
 
 // Helper function for getting the current user
 const getAuthUser = async () => {
@@ -381,7 +382,52 @@ export const fetchProductRating = async (productId: string) => {
   };
 };
 
+// Fetch all the reviews from user
+export const fetchProductReviewsByUser = async () => {
+  // Get the current user from Clerk
+  const user = await getAuthUser();
+
+  // Get the reviews from the database (select custom fields)
+  const reviews = await db.review.findMany({
+    where: { clerkId: user.id },
+    select: {
+      id: true,
+      rating: true,
+      comment: true,
+      product: {
+        select: {
+          image: true,
+          name: true,
+        },
+      },
+    },
+  });
+
+  // Return the reviews
+  return reviews;
+};
+
+// Delete the review action function
+export const deleteReviewAction = async (prevState: { reviewId: string }) => {
+  // Get the ID from the props
+  const { reviewId } = prevState;
+
+  // Get the current user from Clerk
+  const user = await getAuthUser();
+
+  try {
+    // Delete the review if id and user match
+    await db.review.delete({ where: { id: reviewId, clerkId: user.id } });
+
+    // Revalidate the page
+    revalidatePath("/reviews");
+
+    // Return success message
+    return { message: "Review deleted successfully" };
+  } catch (err) {
+    return renderError(err);
+  }
+};
+
 // TODO:
-export const fetchProductReviewsByUser = async () => {};
-export const deleteReviewAction = async () => {};
 export const findExistingReview = async () => {};
