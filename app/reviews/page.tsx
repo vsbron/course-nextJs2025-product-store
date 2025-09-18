@@ -40,6 +40,7 @@ function DeleteReview({ reviewId }: { reviewId: string }) {
   // Binding id to the action function
   const deleteReview = deleteReviewAction.bind(null, { reviewId });
 
+  // Returned JSX
   return (
     <FormContainer action={deleteReview}>
       <IconButton actionType="delete" />

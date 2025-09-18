@@ -1,11 +1,12 @@
 import Image from "next/image";
+import { auth } from "@clerk/nextjs/server";
 
 import FavoriteToggleButton from "@/components/products/FavoriteToggleButton";
 import AddToCart from "@/components/single-product/AddToCart";
 import Breadcrumbs from "@/components/single-product/Breadcrumbs";
 import ProductRating from "@/components/single-product/ProductRating";
 import ShareButton from "@/components/single-product/ShareButton";
-import { fetchSingleProduct } from "@/utils/actions";
+import { fetchSingleProduct, findExistingReview } from "@/utils/actions";
 import { formatCurrency } from "@/utils/format";
 import SubmitReview from "@/components/reviews/SubmitReview";
 import ProductReviews from "@/components/reviews/ProductReviews";
@@ -23,6 +24,10 @@ async function SingleProductPage({ params }: SingleProductsPageProps) {
   const { name, image, company, description, price } = await fetchSingleProduct(
     { id }
   );
+
+  // Check if user logged in and left the review already
+  const { userId } = await auth();
+  const reviewDoesNotExist = userId && !(await findExistingReview(userId, id));
 
   // Returned JSX
   return (
@@ -59,7 +64,7 @@ async function SingleProductPage({ params }: SingleProductsPageProps) {
         </div>
       </div>
       <ProductReviews productId={id} />
-      <SubmitReview productId={id} />
+      {reviewDoesNotExist && <SubmitReview productId={id} />}
     </section>
   );
 }

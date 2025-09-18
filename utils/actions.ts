@@ -1,13 +1,13 @@
 "use server";
 import { currentUser } from "@clerk/nextjs/server";
+import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
+
+import db from "@/utils/db";
 
 import { imageSchema, productSchema, reviewSchema } from "./schema";
 import { validatedWithZodSchema } from "./schemaFunctions";
-import db from "@/utils/db";
 import { deleteImage, uploadImage } from "./supabase";
-import { revalidatePath } from "next/cache";
-import { useAuth } from "@clerk/nextjs";
 
 // Helper function for getting the current user
 const getAuthUser = async () => {
@@ -429,5 +429,13 @@ export const deleteReviewAction = async (prevState: { reviewId: string }) => {
   }
 };
 
-// TODO:
-export const findExistingReview = async () => {};
+// Getting the existing review from the user on the current product
+export const findExistingReview = async (userId: string, productId: string) => {
+  // Return the review if found one
+  return await db.review.findFirst({
+    where: {
+      clerkId: userId,
+      productId: productId,
+    },
+  });
+};
