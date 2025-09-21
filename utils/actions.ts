@@ -460,6 +460,10 @@ const fetchProduct = async () => {};
 export const fetchOrCreateCart = async () => {};
 const updateOrCreateCartItem = async () => {};
 export const updateCart = async () => {};
-export const addToCartAction = async () => {};
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export const addToCartAction = async (prevState: any, formData: FormData) => {
+  return { message: "Product added to the cart" };
+};
 export const removeCartItemAction = async () => {};
 export const updateCartItemAction = async () => {};
