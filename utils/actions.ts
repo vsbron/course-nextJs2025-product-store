@@ -2,6 +2,7 @@
 import { auth, currentUser } from "@clerk/nextjs/server";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
+import { Cart } from "@prisma/client";
 
 import db from "@/utils/db";
 
@@ -464,12 +465,19 @@ export const addToCartAction = async (prevState: any, formData: FormData) => {
   try {
     // Get the product data from the form
     const productId = formData.get("productId") as string;
-    const amount = formData.get("amount");
+    const amount = Number(formData.get("amount"));
 
-    // Get the product from a helper function
-    const product = await fetchProduct(productId);
+    // Check if product exists
+    await fetchProduct(productId);
 
+    // Get the cart for the user
     const cart = await fetchOrCreateCart({ userId: user.id });
+
+    // Add a product to the cart or update the existing one
+    await updateOrCreateCartItem({ productId, cartId: cart.id, amount });
+
+    // Update the cart
+    await updateCart(cart);
 
     // Get the product
   } catch (err) {
@@ -527,8 +535,79 @@ const includeProductClause = {
   },
 };
 
+// Helper function that creates cart item in the cart, or updates the existing ones
+const updateOrCreateCartItem = async ({
+  productId,
+  cartId,
+  amount,
+}: {
+  productId: string;
+  cartId: string;
+  amount: number;
+}) => {
+  let cartItem = await db.cartItem.findFirst({
+    where: {
+      productId,
+      cartId,
+    },
+  });
+  // Update the existing one
+  if (cartItem) {
+    cartItem = await db.cartItem.update({
+      where: { id: cartItem.id },
+      data: { amount: cartItem.amount + amount },
+    });
+  } else {
+    // Create the new one
+    cartItem = await db.cartItem.create({
+      data: {
+        amount,
+        productId,
+        cartId,
+      },
+    });
+  }
+};
+
+// Updating the cart action function
+export const updateCart = async (cart: Cart) => {
+  const cartItems = await db.cartItem.findMany({
+    where: {
+      cartId: cart.id,
+    },
+    include: {
+      product: true,
+    },
+  });
+
+  let numItemsInCart = 0;
+  let cartTotal = 0;
+
+  // Iterate over cartItems
+  for (const item of cartItems) {
+    // Update the values
+    numItemsInCart += item.amount;
+    cartTotal += item.amount * item.product.price;
+  }
+  const tax = cart.taxRate * cartTotal;
+  const shipping = cartTotal ? cart.shipping : 0;
+
+  // Calculate the total
+  const orderTotal = cartTotal + tax + shipping;
+
+  // Update the cart in the database
+  const currentCart = await db.cart.update({
+    where: {
+      id: cart.id,
+    },
+    data: { numItemsInCart, cartTotal, tax, orderTotal },
+    include: includeProductClause,
+  });
+
+  // Return the cart
+  return currentCart;
+};
+
 // TODO:
-const updateOrCreateCartItem = async () => {};
-export const updateCart = async () => {};
 export const removeCartItemAction = async () => {};
 export const updateCartItemAction = async () => {};
