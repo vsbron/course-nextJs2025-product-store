@@ -455,15 +455,80 @@ export const fetchCartItems = async () => {
   // Return the cart
   return cart?.numItemsInCart || 0;
 };
-// TODO:
-const fetchProduct = async () => {};
-export const fetchOrCreateCart = async () => {};
-const updateOrCreateCartItem = async () => {};
-export const updateCart = async () => {};
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const addToCartAction = async (prevState: any, formData: FormData) => {
-  return { message: "Product added to the cart" };
+  // Check if user logged in
+  const user = await getAuthUser();
+
+  try {
+    // Get the product data from the form
+    const productId = formData.get("productId") as string;
+    const amount = formData.get("amount");
+
+    // Get the product from a helper function
+    const product = await fetchProduct(productId);
+
+    const cart = await fetchOrCreateCart({ userId: user.id });
+
+    // Get the product
+  } catch (err) {
+    renderError(err);
+  }
+
+  // Redirect user to the cart
+  redirect("/cart");
 };
+
+// Helper function that fetches the product
+const fetchProduct = async (productId: string) => {
+  // Fetch the product data from API
+  const product = await db.product.findUnique({ where: { id: productId } });
+
+  // Guard clause
+  if (!product) {
+    throw new Error("Product not found");
+  }
+
+  // Return the product
+  return product;
+};
+
+// Helper function that checks whether there is a cart, and creates it if absent
+export const fetchOrCreateCart = async ({
+  userId,
+  errorOnFailure = false,
+}: {
+  userId: string;
+  errorOnFailure?: boolean;
+}) => {
+  let cart = await db.cart.findFirst({
+    where: {
+      clerkId: userId,
+    },
+    include: includeProductClause,
+  });
+  if (!cart && errorOnFailure) {
+    throw new Error("Cart not found");
+  }
+  if (!cart) {
+    cart = await db.cart.create({
+      data: {
+        clerkId: userId,
+      },
+      include: includeProductClause,
+    });
+  }
+  return cart;
+};
+const includeProductClause = {
+  cartItems: {
+    include: { product: true },
+  },
+};
+
+// TODO:
+const updateOrCreateCartItem = async () => {};
+export const updateCart = async () => {};
 export const removeCartItemAction = async () => {};
 export const updateCartItemAction = async () => {};
