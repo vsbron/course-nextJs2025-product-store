@@ -126,3 +126,14 @@ export const CardSubmitButton = ({ isFavorite }: { isFavorite: boolean }) => {
     </Button>
   );
 };
+
+// Button on the product for Logged Out users
+export const ProductSignInButton = () => {
+  return (
+    <SignInButton mode="modal">
+      <Button type="button" className="mt-8 capitalize">
+        Sign In
+      </Button>
+    </SignInButton>
+  );
+};
