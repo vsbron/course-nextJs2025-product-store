@@ -1,6 +1,6 @@
 import Image from "next/image";
-import { Link } from "lucide-react";
 import { formatCurrency } from "@/utils/format";
+import Link from "next/link";
 
 export function FirstColumn({ name, image }: { name: string; image: string }) {
   // Returned JSX
@@ -36,11 +36,17 @@ export function SecondColumn({
     </div>
   );
 }
-export function ThirdColumn() {
+export function ThirdColumn({
+  id,
+  quantity,
+}: {
+  id: string;
+  quantity: number;
+}) {
   // Returned JSX
-  return <div>ThirdColumn</div>;
+  return <div>{quantity}</div>;
 }
 export function FourthColumn({ price }: { price: number }) {
   // Returned JSX
-  return <p className="font-medium md:ml-auto">{formatCurrency(price)}</p>;
+  return <p className="font-semibold md:ml-auto">{formatCurrency(price)}</p>;
 }
