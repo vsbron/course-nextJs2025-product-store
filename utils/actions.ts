@@ -572,6 +572,9 @@ export const updateCart = async (cart: Cart) => {
     include: {
       product: true,
     },
+    orderBy: {
+      createdAt: "asc",
+    },
   });
 
   let numItemsInCart = 0;
@@ -599,7 +602,7 @@ export const updateCart = async (cart: Cart) => {
   });
 
   // Return the cart
-  return currentCart;
+  return { cartItems, currentCart };
 };
 // Removing items from cart action function
 export const removeCartItemAction = async (
