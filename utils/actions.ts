@@ -497,9 +497,6 @@ const fetchProduct = async (productId: string) => {
   if (!product) {
     throw new Error("Product not found");
   }
-
-  // Return the product
-  return product;
 };
 
 // Helper function that checks whether there is a cart, and creates it if absent
@@ -545,6 +542,7 @@ const updateOrCreateCartItem = async ({
   cartId: string;
   amount: number;
 }) => {
+  // Get the cart item from the database
   let cartItem = await db.cartItem.findFirst({
     where: {
       productId,
