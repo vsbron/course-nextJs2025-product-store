@@ -30,21 +30,11 @@ export function SecondColumn({
   return (
     <div className="sm:w-48">
       <Link href={`/products/${productId}`}>
-        <h3 className="capitalize font-medium hover:underline">{name}</h3>
+        <h3 className="capitalize hover:underline font-semibold">{name}</h3>
       </Link>
       <h4 className="mt-2 capitalize text-xs">{company}</h4>
     </div>
   );
-}
-export function ThirdColumn({
-  id,
-  quantity,
-}: {
-  id: string;
-  quantity: number;
-}) {
-  // Returned JSX
-  return <div>{quantity}</div>;
 }
 export function FourthColumn({ price }: { price: number }) {
   // Returned JSX

@@ -1,10 +1,6 @@
 import { Card } from "@/components/ui/card";
-import {
-  FirstColumn,
-  SecondColumn,
-  ThirdColumn,
-  FourthColumn,
-} from "./CartColumns";
+import { FirstColumn, SecondColumn, FourthColumn } from "./CartColumns";
+import ThirdColumn from "./ThirdColumn";
 import { CartItemWithProduct } from "@/utils/types";
 
 function CartItemsList({ cartItems }: { cartItems: CartItemWithProduct[] }) {
