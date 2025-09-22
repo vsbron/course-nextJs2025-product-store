@@ -639,8 +639,44 @@ export const removeCartItemAction = async (
   return { message: "Item removed from cart" };
 };
 
+export const updateCartItemAction = async ({
+  amount,
+  cartItemId,
+}: {
+  amount: number;
+  cartItemId: string;
+}) => {
+  // Get the user data
+  const user = await getAuthUser();
+
+  try {
+    // Get the user's cart
+    const cart = await fetchOrCreateCart({
+      userId: user.id,
+      errorOnFailure: true,
+    });
+
+    // Update the cart item from correct cart
+    await db.cartItem.update({
+      where: {
+        id: cartItemId,
+        cartId: cart.id,
+      },
+      data: { amount },
+    });
+
+    // Update the cart
+    await updateCart(cart);
+
+    // Revalidate path to display correct values
+    revalidatePath("/cart");
+  } catch (err) {
+    renderError(err);
+  }
+  // Return the success message
+  return { message: "Cart updated" };
+};
 // TODO:
-export const updateCartItemAction = async () => {};
 export const createOrderAction = async (prevState: any, formData: FormData) => {
   return { message: "Order created" };
 };

@@ -10,12 +10,32 @@ import SelectProductAmount, {
 import { removeCartItemAction, updateCartItemAction } from "@/utils/actions";
 
 function ThirdColumn({ id, quantity }: { id: string; quantity: number }) {
-  // Create state value for product amount
+  // Create state value for product amount and loading state
   const [amount, setAmount] = useState(quantity);
+  const [isLoading, setIsLoading] = useState(false);
 
   // Helper function for updating the amount
   const handleAmountChange = async (value: number) => {
+    // Enable loading state
+    setIsLoading(true);
+
+    // Display toast message
+    toast("", { description: "Calculating" });
+
+    // Update the cart in the database
+    const result = await updateCartItemAction({
+      amount: value,
+      cartItemId: id,
+    });
+
+    // Update the state
     setAmount(value);
+
+    // Display toast message with result
+    toast("", { description: result.message });
+
+    // Disable loading state
+    setIsLoading(false);
   };
 
   // Returned JSX
