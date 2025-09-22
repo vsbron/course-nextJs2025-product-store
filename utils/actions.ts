@@ -606,10 +606,36 @@ export const removeCartItemAction = async (
   prevState: any,
   formData: FormData
 ) => {
+  // Get the user data
+  const user = await getAuthUser();
+
   try {
+    // Get the id from the formData
+    const cartItemId = formData.get("id") as string;
+
+    // Get the user's cart
+    const cart = await fetchOrCreateCart({
+      userId: user.id,
+      errorOnFailure: true,
+    });
+
+    // Delete the cart item from correct cart
+    await db.cartItem.delete({
+      where: {
+        id: cartItemId,
+        cartId: cart.id,
+      },
+    });
+
+    // Update the cart
+    await updateCart(cart);
+
+    // Revalidate path to display correct values
+    revalidatePath("/cart");
   } catch (err) {
     renderError(err);
   }
+  // Return the success message
   return { message: "Item removed from cart" };
 };
 
