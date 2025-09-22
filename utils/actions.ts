@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use server";
 import { auth, currentUser } from "@clerk/nextjs/server";
 import { revalidatePath } from "next/cache";
@@ -74,7 +75,6 @@ export const fetchSingleProduct = async ({ id }: { id: string }) => {
 
 // Create product action function
 export const createProductAction = async (
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   prevState: any,
   formData: FormData
 ): Promise<{ message: string }> => {
@@ -162,7 +162,6 @@ export const fetchAdminProductDetails = async (productId: string) => {
 
 // Update product action
 export const updateProductAction = async (
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   prevState: any,
   formData: FormData
 ) => {
@@ -197,7 +196,6 @@ export const updateProductAction = async (
 
 // Update product image action
 export const updateProductImageAction = async (
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   prevState: any,
   formData: FormData
 ) => {
@@ -317,7 +315,6 @@ export const fetchUserFavorites = async () => {
 // REVIEWS
 // Create review action function
 export const createReviewAction = async (
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   prevState: any,
   formData: FormData
 ) => {
@@ -457,7 +454,6 @@ export const fetchCartItems = async () => {
   return cart?.numItemsInCart || 0;
 };
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const addToCartAction = async (prevState: any, formData: FormData) => {
   // Check if user logged in
   const user = await getAuthUser();
@@ -609,3 +605,6 @@ export const updateCart = async (cart: Cart) => {
 // TODO:
 export const removeCartItemAction = async () => {};
 export const updateCartItemAction = async () => {};
+export const createOrderAction = async (prevState: any, formData: FormData) => {
+  return { message: "Order created" };
+};
