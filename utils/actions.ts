@@ -679,7 +679,76 @@ export const updateCartItemAction = async ({
   // Return the success message
   return { message: "Cart updated" };
 };
-// TODO:
 export const createOrderAction = async (prevState: any, formData: FormData) => {
-  return { message: "Order created" };
+  // Get the user data
+  const user = await getAuthUser();
+
+  try {
+    // Get the user's cart
+    const cart = await fetchOrCreateCart({
+      userId: user.id,
+      errorOnFailure: true,
+    });
+
+    // Create the order in the database
+    const order = await db.order.create({
+      data: {
+        clerkId: user.id,
+        products: cart.numItemsInCart,
+        orderTotal: cart.orderTotal,
+        tax: cart.tax,
+        shipping: cart.shipping,
+        email: user.emailAddresses[0].emailAddress,
+      },
+    });
+
+    // Empty the cart
+    await db.cart.delete({
+      where: {
+        id: cart.id,
+      },
+    });
+  } catch (err) {
+    renderError(err);
+  }
+
+  // Redirect user ot orders page
+  redirect("/orders");
+};
+
+export const fetchUserOrders = async () => {
+  // Get the user data
+  const user = await getAuthUser();
+
+  // Get the user's orders
+  const orders = await db.order.findMany({
+    where: {
+      clerkId: user.id,
+      isPaid: true,
+    },
+    orderBy: {
+      createdAt: "desc",
+    },
+  });
+
+  // Return the orders
+  return orders;
+};
+// TODO:
+export const fetchAdminOrders = async () => {
+  // Check if user is Admin
+  await getAdminUser();
+
+  // Get all the orders
+  const orders = await db.order.findMany({
+    where: {
+      isPaid: true,
+    },
+    orderBy: {
+      createdAt: "desc",
+    },
+  });
+
+  // Return the orders
+  return orders;
 };
