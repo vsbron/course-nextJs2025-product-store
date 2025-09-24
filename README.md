@@ -2,7 +2,7 @@
 
 This is an e-commerce style application built with modern technologies, providing a platform for browsing and interacting with products such as chairs, lamps, beds, and more.
 
-It features product browsing, favorites management, reviews, search, and an admin panel for product management. Key functionalities include authentication, form validation, and a responsive UI.
+It features product browsing, favorites, reviews, shopping cart, checkout via Stripe, order history, and an admin panel for product & order management. Key functionalities include authentication, form validation, and a responsive UI.
 
 ---
 
@@ -14,7 +14,8 @@ It features product browsing, favorites management, reviews, search, and an admi
    - [Index Page](#index-page)
    - [Product Page](#product-page)
    - [Favorites](#favorites)
-   - [Reviews](#reviews)
+   - [Cart](#cart)
+   - [Orders](#orders)
    - [Admin Pages](#admin-pages)
    - [Additional Pages](#additional-pages)
 4. [Technical Details](#technical-details)
@@ -25,11 +26,12 @@ It features product browsing, favorites management, reviews, search, and an admi
 
 ## Project Overview
 
-Product Store allows users to explore products, mark them as favorites, and leave reviews. It includes:
+Product Store allows users to explore products, mark them as favorites, manage a shopping cart, and complete purchases via Stripe. It includes:
 
 - **Core Components**: A responsive header with search, a theme toggler, and navigation.
-- **Product Management**: Admin users can add new products and view the full catalog.
-- **User Features**: Favorite system, reviews with edit/delete options, and personalized access with authentication.
+- **Product Management**: Admin users can add products and view the full catalog.
+- **Shopping & Orders**: Add products to the cart, modify quantities, remove items, checkout, and view past orders.
+- **User Features**: Favorites system, reviews, and personalized access with authentication.
 - **Modern UI/UX**: Clean, responsive design powered by Tailwind and ShadCN.
 
 ---
@@ -37,11 +39,14 @@ Product Store allows users to explore products, mark them as favorites, and leav
 ## Features
 
 - **Browse Products**: Users can view products like chairs, lamps, beds, and more.
-- **Favorites**: Add or remove products from favorites (fully functional).
-- **Reviews**: Leave reviews on products and delete them if desired.
-- **Search Bar**: Search for products at the top of the page with instant results.
+- **Favorites**: Add or remove products from favorites.
+- **Reviews**: Leave and manage reviews on products.
+- **Shopping Cart**: Add items, update quantities, remove products, and view totals.
+- **Checkout Flow**: Complete purchases using a custom API that integrates with Stripe for payment.
+- **Order History**: Users can see a list of paid orders and their details.
+- **Admin Panel**: Admin users can manage products and see all orders.
+- **Search Bar**: Find products quickly via instant search.
 - **Theme Toggler**: Switch between light and dark modes.
-- **Admin Panel**: Admin users can view all products and create new ones.
 - **Responsive Design**: Fully optimized for mobile and desktop.
 
 ---
@@ -50,66 +55,67 @@ Product Store allows users to explore products, mark them as favorites, and leav
 
 ### **Index Page**
 
-The main page lists products with options to:
-
-- Browse by category.
-- Use the search bar to find products.
-- Quickly navigate using the responsive header.
+- Lists all products with category filters.
+- Search bar for instant results.
+- Quick navigation using the responsive header.
 
 ### **Product Page**
 
-Displays details about a specific product:
-
-- Product image, title, and description.
-- Options to add/remove from favorites.
+- Product image, title, description, and price.
+- Add/remove from favorites and cart.
 - Review section for user feedback.
 
 ### **Favorites**
 
-- Dedicated section showing the user’s favorite products.
-- Ability to remove items directly.
+- Displays the user’s favorite products.
+- Remove items directly from the list.
 
-### **Reviews**
+### **Cart**
 
-- Leave a review on a product.
-- Delete your review at any time.
+- Shows products added by the user.
+- Update quantities or remove items.
+- Proceed to checkout.
+
+### **Orders**
+
+- Lists all orders the user has paid for.
+- View order details, including purchased products and amounts.
 
 ### **Admin Pages**
 
 For admin users only:
 
-- **All Products**: View the full catalog.
-- **Create Product**: Add a new product via a form with validation.
+- **All Products**: View the full catalog and manage products.
+- **Create Product**: Add a new product with validation.
+- **All Orders**: View all user orders with details.
 
 ### **Additional Pages**
 
-- Authentication (Sign In / Sign Up with Clerk).
+- Authentication (Sign In / Sign Up via Clerk).
 - Profile management through Clerk.
 
 ---
 
 ## Technical Details
 
-- **Framework**: Next.js with TypeScript for type safety and scalability.
-- **Styling**: Tailwind CSS for styling and ShadCN UI components for prebuilt elements.
-- **Database**: Prisma ORM for database operations.
-- **Authentication**: Clerk for secure user sign-up and login.
-- **Validation**: Zod for validating form and server actions.
-- **Routing**: App Router (Next.js 13+) for modern file-based routing.
+- **Framework**: Next.js with TypeScript.
+- **Styling**: Tailwind CSS and ShadCN UI components.
+- **Database**: Prisma ORM.
+- **Authentication**: Clerk.
+- **Validation**: Zod for forms and server actions.
+- **Routing**: App Router (Next.js 13+).
+- **Payment**: Stripe integration via custom checkout API.
 
 ---
 
 ## Future Improvements
 
-Planned enhancements to expand the functionality:
-
-- **Shopping Cart**: Add to cart, update quantity, and remove items.
-- **Checkout Flow**: Streamlined process for completing purchases.
-- **Order History**: Track past purchases and re-order easily.
-- **Payment Integration**: Support for payment gateways like Stripe.
+- Enhanced cart features (save for later, wishlist integration).
+- Advanced order tracking (status updates, notifications).
+- Multi-currency support for Stripe payments.
 
 ---
 
-## Live version
+## Live Version
 
 https://course-nextjs2025-product-store.vercel.app
