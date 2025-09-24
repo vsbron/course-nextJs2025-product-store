@@ -11,7 +11,7 @@ export const formatCurrency = (amount: number | null) => {
 export const formatDate = (date: Date) => {
   return new Intl.DateTimeFormat("en-US", {
     year: "numeric",
-    month: "long",
+    month: "short",
     day: "numeric",
   }).format(date);
 };

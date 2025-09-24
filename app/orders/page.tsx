@@ -32,7 +32,7 @@ async function OrdersPage() {
         </TableHeader>
         <TableBody>
           {orders.map(
-            ({ shipping, tax, createdAt, id, orderTotal, products }) => (
+            ({ id, products, orderTotal, tax, shipping, createdAt }) => (
               <TableRow key={id}>
                 <TableCell>{products}</TableCell>
                 <TableCell>{formatCurrency(orderTotal)}</TableCell>
