@@ -679,6 +679,9 @@ export const updateCartItemAction = async ({
   // Return the success message
   return { message: "Cart updated" };
 };
+
+// ORDERS
+// Creating the order action function
 export const createOrderAction = async (prevState: any, formData: FormData) => {
   // Get the user data
   const user = await getAuthUser();
@@ -716,6 +719,7 @@ export const createOrderAction = async (prevState: any, formData: FormData) => {
   redirect("/orders");
 };
 
+// Getting all user's orders action function
 export const fetchUserOrders = async () => {
   // Get the user data
   const user = await getAuthUser();
@@ -734,7 +738,8 @@ export const fetchUserOrders = async () => {
   // Return the orders
   return orders;
 };
-// TODO:
+
+// Getting all orders action function
 export const fetchAdminOrders = async () => {
   // Check if user is Admin
   await getAdminUser();
