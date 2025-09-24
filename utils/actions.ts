@@ -686,12 +686,22 @@ export const createOrderAction = async (prevState: any, formData: FormData) => {
   // Get the user data
   const user = await getAuthUser();
 
+  // Create order and cart IDs instances
+  let orderId: string | null = null;
+  let cartId: string | null = null;
+
   try {
     // Get the user's cart
     const cart = await fetchOrCreateCart({
       userId: user.id,
       errorOnFailure: true,
     });
+
+    // Set the cart ID
+    cartId = cart.id;
+
+    // Delete previous uncompleted orders
+    await db.order.deleteMany({ where: { clerkId: user.id, isPaid: false } });
 
     // Create the order in the database
     const order = await db.order.create({
@@ -705,18 +715,14 @@ export const createOrderAction = async (prevState: any, formData: FormData) => {
       },
     });
 
-    // Empty the cart
-    await db.cart.delete({
-      where: {
-        id: cart.id,
-      },
-    });
+    // Set the orderId
+    orderId = order.id;
   } catch (err) {
     renderError(err);
   }
 
-  // Redirect user ot orders page
-  redirect("/orders");
+  // Redirect user to the checkout page
+  redirect(`/checkout?orderId=${orderId}&cartId=${cartId}`);
 };
 
 // Getting all user's orders action function
